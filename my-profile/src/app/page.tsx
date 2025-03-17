@@ -1,5 +1,3 @@
-// src/app/page.tsx
-
 'use client';
 import { useEffect, useState } from 'react';
 import { fetchProfile, Profile } from '../lib/api';
@@ -19,41 +17,64 @@ const MyProfile = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="text-center text-xl">Loading...</p>;
   }
 
   if (!profile) {
-    return <p>Error fetching profile</p>;
+    return <p className="text-center text-xl text-red-500">Error fetching profile</p>;
   }
 
   return (
-    <div>
-      <h1>{profile.personal_information.full_name}</h1>
-      <p>{profile.personal_information.address}</p>
-      <p>{profile.personal_information.phone_number}</p>
-      <p>{profile.personal_information.email}</p>
-      <a href={profile.personal_information.linkedin_profile} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href={profile.personal_information.github_profile} target="_blank" rel="noopener noreferrer">GitHub</a>
+    <div className="container mx-auto p-6">
+      <div className="bg-white p-8 rounded-lg shadow-lg">
+        <h1 className="text-4xl font-bold text-center text-blue-600 mb-4">{profile.personal_information.full_name}</h1>
+        <p className="text-lg text-center text-gray-700">{profile.personal_information.address}</p>
+        <p className="text-lg text-center text-gray-700">{profile.personal_information.phone_number}</p>
+        <p className="text-lg text-center text-gray-700">{profile.personal_information.email}</p>
 
-      <h2>Education</h2>
-      <ul>
-        {profile.education.map((edu, index) => (
-          <li key={index}>
-            {edu.degree} - {edu.institution} ({edu.duration}) - GPA: {edu.gpa}
-          </li>
-        ))}
-      </ul>
+        <div className="flex justify-center space-x-4 mt-4">
+          <a
+            href={profile.personal_information.linkedin_profile}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:text-blue-700"
+          >
+            LinkedIn
+          </a>
+          <a
+            href={profile.personal_information.github_profile}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-700 hover:text-gray-900"
+          >
+            GitHub
+          </a>
+        </div>
 
-      <h2>Work Experience</h2>
-      <ul>
-        {profile.work_experience.map((work, index) => (
-          <li key={index}>
-            {work.company_name} - {work.position} ({work.duration})<br />
-            Responsibilities: {work.responsibilities}<br />
-            Achievements: {work.achievements}
-          </li>
-        ))}
-      </ul>
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold text-gray-800">Education</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            {profile.education.map((edu, index) => (
+              <li key={index} className="text-lg text-gray-700">
+                <strong>{edu.degree}</strong> - {edu.institution} ({edu.duration}) - GPA: {edu.gpa}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mt-8">
+          <h2 className="text-2xl font-semibold text-gray-800">Work Experience</h2>
+          <ul className="list-disc pl-6 space-y-2">
+            {profile.work_experience.map((work, index) => (
+              <li key={index} className="text-lg text-gray-700">
+                <strong>{work.company_name}</strong> - {work.position} ({work.duration})<br />
+                <span className="font-semibold">Responsibilities:</span> {work.responsibilities}<br />
+                <span className="font-semibold">Achievements:</span> {work.achievements}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
