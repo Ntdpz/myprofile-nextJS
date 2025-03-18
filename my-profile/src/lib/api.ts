@@ -1,5 +1,4 @@
 // src/lib/api.ts
-
 export interface Profile {
     personal_information: {
       full_name: string;

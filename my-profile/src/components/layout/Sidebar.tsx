@@ -1,8 +1,6 @@
 const Sidebar: React.FC = () => {
   return (
     <div className="w-64 bg-green-400 text-blac h-screen-auto">
-      {" "}
-      {/* ใช้ h-screen เพื่อให้ Sidebar เต็มหน้าจอ */}
       <h1 className="text-xl font-bold text-center h-[40px] bg-green-900 text-white flex items-center justify-center">
         About me
       </h1>

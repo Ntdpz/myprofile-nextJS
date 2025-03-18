@@ -1,26 +1,11 @@
-"use client";
-import { useEffect, useState } from "react";
 import { fetchProfile, Profile } from "../lib/api";
 
-const MyProfile = () => {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export default async function MyProfile() {
+  // ดึงข้อมูลโปรไฟล์จาก API
+  const response = await fetchProfile();
+  const profile: Profile | null = response.data[0];
 
-  useEffect(() => {
-    const getProfile = async () => {
-      const response = await fetchProfile();
-      // เนื่องจากข้อมูลอยู่ใน data[0], จึงต้องดึงออกมา
-      setProfile(response.data[0]);
-      setLoading(false);
-    };
-
-    getProfile();
-  }, []);
-
-  if (loading) {
-    return <p className="text-center text-xl">Loading...</p>;
-  }
-
+  // ถ้าหากไม่มีโปรไฟล์ จะแสดงข้อความ error
   if (!profile) {
     return (
       <p className="text-center text-xl text-red-500">Error fetching profile</p>
@@ -40,6 +25,8 @@ const MyProfile = () => {
             />
           </div>
         )}
+
+        {/* ข้อมูลส่วนตัว */}
         <h1 className="text-4xl font-bold text-center text-blue-600 mb-4">
           {profile.personal_information.full_name}
         </h1>
@@ -53,6 +40,7 @@ const MyProfile = () => {
           {profile.personal_information.email}
         </p>
 
+        {/* ลิงก์โปรไฟล์ */}
         <div className="flex justify-center space-x-4 mt-4">
           <a
             href={profile.personal_information.linkedin_profile}
@@ -72,6 +60,7 @@ const MyProfile = () => {
           </a>
         </div>
 
+        {/* การศึกษา */}
         <div className="mt-8">
           <h2 className="text-2xl font-semibold text-gray-800">Education</h2>
           <ul className="list-disc pl-6 space-y-2">
@@ -84,6 +73,7 @@ const MyProfile = () => {
           </ul>
         </div>
 
+        {/* ประสบการณ์การทำงาน */}
         <div className="mt-8">
           <h2 className="text-2xl font-semibold text-gray-800">
             Work Experience
@@ -103,7 +93,7 @@ const MyProfile = () => {
           </ul>
         </div>
 
-        {/* Skills */}
+        {/* ทักษะ */}
         <div className="mt-8">
           <h2 className="text-2xl font-semibold text-gray-800">Skills</h2>
           <h3 className="text-xl font-semibold text-gray-700">
@@ -151,7 +141,7 @@ const MyProfile = () => {
           </ul>
         </div>
 
-        {/* Projects */}
+        {/* โครงการ */}
         <div className="mt-8">
           <h2 className="text-2xl font-semibold text-gray-800">Projects</h2>
           {profile.projects.map((project, index) => (
@@ -167,7 +157,7 @@ const MyProfile = () => {
           ))}
         </div>
 
-        {/* Languages */}
+        {/* ภาษา */}
         <div className="mt-8">
           <h2 className="text-2xl font-semibold text-gray-800">Languages</h2>
           <ul className="list-disc pl-6 space-y-2">
@@ -181,6 +171,4 @@ const MyProfile = () => {
       </div>
     </div>
   );
-};
-
-export default MyProfile;
+}
